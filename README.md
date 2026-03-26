@@ -2,6 +2,74 @@
 
 Radio broadcast to podcast converter with local AI, multi-show support, and automated publishing.
 
+## Download & Install
+
+Pre-built binaries are available for all platforms — no Python required:
+
+| Platform | Download |
+|----------|----------|
+| **Windows** | [recast-windows-x86_64.exe](https://github.com/1ARdotNO/Recast/releases/latest/download/recast-windows-x86_64.exe) |
+| **macOS (Apple Silicon)** | [recast-macos-arm64](https://github.com/1ARdotNO/Recast/releases/latest/download/recast-macos-arm64) |
+| **Linux** | [recast-linux-x86_64](https://github.com/1ARdotNO/Recast/releases/latest/download/recast-linux-x86_64) |
+
+Or see [all releases](https://github.com/1ARdotNO/Recast/releases).
+
+### Windows Setup
+
+1. Download `recast-windows-x86_64.exe` from the link above
+2. Place it somewhere on your PATH (e.g. `C:\Program Files\Recast\`)
+3. Install ffmpeg:
+   ```powershell
+   # Try winget first (built into Windows 11 / Windows 10 1709+):
+   winget install --id Gyan.FFmpeg --accept-source-agreements
+
+   # If winget is not available, use Chocolatey:
+   choco install ffmpeg -y
+   ```
+4. Install [Ollama](https://ollama.ai) and pull a model:
+   ```powershell
+   ollama pull gemma3:12b
+   ```
+5. Run Recast:
+   ```powershell
+   recast-windows-x86_64.exe ui
+   ```
+
+### macOS Setup
+
+1. Download `recast-macos-arm64` and make it executable:
+   ```bash
+   chmod +x recast-macos-arm64
+   sudo mv recast-macos-arm64 /usr/local/bin/recast
+   ```
+2. Install dependencies:
+   ```bash
+   brew install ffmpeg
+   ```
+3. Install [Ollama](https://ollama.ai) and pull a model:
+   ```bash
+   ollama pull gemma3:12b
+   ```
+4. Run: `recast ui`
+
+### Linux Setup
+
+1. Download `recast-linux-x86_64` and make it executable:
+   ```bash
+   chmod +x recast-linux-x86_64
+   sudo mv recast-linux-x86_64 /usr/local/bin/recast
+   ```
+2. Install dependencies:
+   ```bash
+   sudo apt update && sudo apt install ffmpeg    # Debian/Ubuntu
+   # or: sudo dnf install ffmpeg                 # Fedora
+   ```
+3. Install [Ollama](https://ollama.ai) and pull a model:
+   ```bash
+   ollama pull gemma3:12b
+   ```
+4. Run: `recast ui`
+
 ## Features
 
 - Watches input folders for new audio files and auto-processes them
@@ -12,68 +80,48 @@ Radio broadcast to podcast converter with local AI, multi-show support, and auto
 - CLI mode for headless, scriptable operation
 - All inference runs locally — no data leaves your machine
 
-## Prerequisites
+## Web UI Guide
 
-| Tool | Required | Install |
-|------|----------|---------|
-| Python 3.11+ | Yes | [python.org](https://python.org) |
-| ffmpeg | Yes | See below |
-| Ollama | Yes | [ollama.ai](https://ollama.ai) |
+Start the web UI with `recast ui` and open http://localhost:8765 in your browser.
 
-### Install ffmpeg
+### Dashboard
 
-**macOS:**
-```bash
-brew install ffmpeg
-```
+The dashboard shows all configured shows with job counts and quick actions.
 
-**Ubuntu/Debian:**
-```bash
-sudo apt update && sudo apt install ffmpeg
-```
+![Dashboard](docs/screenshots/dashboard.png)
 
-**Windows:**
-```powershell
-winget install ffmpeg
-# or download from https://ffmpeg.org/download.html and add to PATH
-```
+- Click **Jobs** to see the processing queue for a show
+- Click **Settings** to configure the show parameters
+- Shows are auto-discovered from the `shows_dir` in `recast_config.toml`
 
-### Install Ollama
+### Episode Editor
 
-Download from [ollama.ai](https://ollama.ai), then pull a model:
+When you click on a job, the episode editor opens with:
 
-```bash
-ollama pull gemma3:12b
-# or for faster CPU inference:
-ollama pull llama3.2:3b
-```
+- **Waveform panel** — Color-coded audio visualization
+  - Green: kept (speech)
+  - Red: removed (music, detected by pyannote)
+  - Orange: removed (spoken intro/outro, detected by LLM)
+  - Grey: removed (below minimum duration threshold)
+  - Hover any region to see start/end times, duration, reason, and confidence
+  - Click anywhere to seek
 
-## Installation
+- **Cut list panel** — Table of all cut decisions with Restore/Remove buttons
+  - Bulk actions: "Restore All LLM Cuts" and "Restore All Pyannote Cuts"
 
-### From source (recommended for development)
+- **Transcript panel** — Full transcript with timestamps, removed segments shown as strikethrough
 
-```bash
-git clone https://github.com/your-org/recast.git
-cd recast
-python -m venv .venv
-source .venv/bin/activate  # Linux/macOS
-# .venv\Scripts\activate   # Windows
-pip install -e ".[dev]"
-```
+- **Metadata panel** — Edit episode title, description, and chapter markers
 
-### Via pipx (user install)
+- **Actions**: Save edits, Render & Preview, Approve & Publish, Discard
 
-```bash
-pipx install .
-```
+### Live Processing Log
 
-### Optional: GPU support (pyannote.audio)
+Real-time pipeline progress with stage counter (Stage N of 8) and estimated time remaining.
 
-For GPU-accelerated speech segmentation:
+### Show Settings
 
-```bash
-pip install -e ".[gpu]"
-```
+Edit all `show.toml` parameters via a form — no manual TOML editing required. Includes buttons to test Ollama connection and ffmpeg availability.
 
 ## Quick Start
 
@@ -117,8 +165,6 @@ recast watch myshow
 ```bash
 recast ui
 ```
-
-Opens at http://localhost:8765 with dashboard, episode editor, and live processing log.
 
 ## CLI Reference
 
@@ -192,20 +238,26 @@ Recast generates standard RSS 2.0 feeds with iTunes namespace tags. Both Spotify
 
 After that, new episodes appear automatically when the feed is updated.
 
+## Install from Source
+
+For development or if you prefer pip:
+
+```bash
+git clone https://github.com/1ARdotNO/Recast.git
+cd Recast
+python -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+# .venv\Scripts\activate   # Windows
+pip install -e ".[dev]"
+```
+
 ## Development
 
 ```bash
-# Install dev dependencies
 pip install -e ".[dev]"
-
-# Run tests
-pytest
-
-# Run with coverage
-pytest --cov=recast
-
-# Run a specific test
-pytest tests/test_runner.py -v
+pytest                       # Run tests
+pytest --cov=recast          # Run with coverage
+pytest tests/test_runner.py -v  # Run specific tests
 ```
 
 ## Platform Support
