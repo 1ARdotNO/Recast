@@ -94,9 +94,20 @@ The dashboard shows all configured shows with job counts and quick actions.
 - Click **Settings** to configure the show parameters
 - Shows are auto-discovered from the `shows_dir` in `recast_config.toml`
 
+### Job List
+
+The job list shows all processing jobs for a show with status badges, current pipeline stage, and error details.
+
+![Job List](docs/screenshots/jobs.png)
+
+- Status badges: `queued` / `running` / `review needed` / `done` / `failed`
+- Click any row to open the Episode Editor
+
 ### Episode Editor
 
-When you click on a job, the episode editor opens with:
+The core review interface. Click on a job to open the editor with waveform, cut list, transcript, and metadata panels.
+
+![Episode Editor — Waveform and Cut List](docs/screenshots/editor.png)
 
 - **Waveform panel** — Color-coded audio visualization
   - Green: kept (speech)
@@ -107,21 +118,36 @@ When you click on a job, the episode editor opens with:
   - Click anywhere to seek
 
 - **Cut list panel** — Table of all cut decisions with Restore/Remove buttons
-  - Bulk actions: "Restore All LLM Cuts" and "Restore All Pyannote Cuts"
 
 - **Transcript panel** — Full transcript with timestamps, removed segments shown as strikethrough
 
-- **Metadata panel** — Edit episode title, description, and chapter markers
+Scroll down for metadata editing and bulk actions:
 
+![Episode Editor — Metadata and Actions](docs/screenshots/editor_panels.png)
+
+- **Metadata panel** — Edit episode title, description, and chapter markers
+- **Bulk actions**: "Restore All LLM Cuts" and "Restore All Pyannote Cuts"
 - **Actions**: Save edits, Render & Preview, Approve & Publish, Discard
+
+### Show Settings
+
+Edit all `show.toml` parameters via a form — no manual TOML editing required.
+
+![Show Settings](docs/screenshots/settings.png)
+
+- Configure Whisper model, Ollama model, join mode, padding, thresholds
+- Test Ollama connection (pings endpoint, lists available models)
+- Test ffmpeg availability
 
 ### Live Processing Log
 
 Real-time pipeline progress with stage counter (Stage N of 8) and estimated time remaining.
 
-### Show Settings
+![Live Processing Log](docs/screenshots/livelog.png)
 
-Edit all `show.toml` parameters via a form — no manual TOML editing required. Includes buttons to test Ollama connection and ffmpeg availability.
+- WebSocket-connected real-time updates
+- Progress bar showing current stage
+- Scrollable log of processing events
 
 ## Quick Start
 
