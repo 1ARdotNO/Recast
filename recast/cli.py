@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import shutil
-import subprocess
-import sys
 from pathlib import Path
 from typing import Optional
 
@@ -186,13 +184,7 @@ def watch(
             typer.echo(f"Skipping {folder}: {e}", err=True)
             continue
 
-        queue = JobQueue(show_config.db_path)
-        runner = PipelineRunner(
-            show_config, queue,
-            hf_token=global_config.get("hf_token", ""),
-        )
-
-        def process_file(path: Path, cfg: ShowConfig = show_config):
+        def process_file(path: Path, cfg=show_config):
             q = JobQueue(cfg.db_path)
             r = PipelineRunner(cfg, q, hf_token=global_config.get("hf_token", ""))
             job = q.create_job(path.name, str(path))
@@ -352,7 +344,6 @@ def _publish_episode(show_config, queue, job_id: str) -> None:
     """Publish an episode (generate/update RSS feed)."""
     from recast.publishing.rss import generate_feed
     from recast.publishing.apple import validate_apple_compliance
-    from recast.models.episode import Episode
     from datetime import datetime, timezone
 
     episode = queue.get_episode(job_id)

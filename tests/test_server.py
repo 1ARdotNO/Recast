@@ -1,13 +1,10 @@
 """Tests for FastAPI server."""
 
-import json
-from pathlib import Path
-from unittest.mock import patch, MagicMock
 
 import pytest
 from httpx import AsyncClient, ASGITransport
 
-from recast.server import app, _global_config
+from recast.server import app
 
 
 @pytest.fixture(autouse=True)

@@ -2,14 +2,12 @@
 
 import json
 import subprocess
-from pathlib import Path
 from unittest.mock import patch, MagicMock
 
 import pytest
 
-from recast.models.job import Job, JobStatus
+from recast.models.job import JobStatus
 from recast.models.show import ShowConfig
-from recast.models.episode import Episode, Chapter
 from recast.queue import JobQueue
 from recast.pipeline.runner import PipelineRunner
 

@@ -4,12 +4,11 @@ from __future__ import annotations
 
 import json
 import time
-from pathlib import Path
 from typing import Callable
 
 import structlog
 
-from recast.models.job import Job, JobStatus, PIPELINE_STAGES
+from recast.models.job import Job, PIPELINE_STAGES
 from recast.models.show import ShowConfig
 from recast.models.cut import CutList, Segment
 from recast.models.episode import Episode

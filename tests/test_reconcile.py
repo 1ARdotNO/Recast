@@ -1,11 +1,10 @@
 """Tests for Stage 5 — Reconcile."""
 
 import json
-from pathlib import Path
 
 import pytest
 
-from recast.models.cut import Segment, SegmentType, CutList, CutSource
+from recast.models.cut import Segment, SegmentType, CutList
 from recast.pipeline.stages.reconcile import (
     reconcile, _merge_intervals, _apply_padding,
 )

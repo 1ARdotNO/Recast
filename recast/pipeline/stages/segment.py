@@ -127,7 +127,6 @@ def _try_pyannote_vad(
         return []
 
     # Build timeline: mark everything as music, then punch speech holes
-    total_duration = speech_regions[-1][1] if speech_regions else 0.0
     segments: list[Segment] = []
 
     prev_end = 0.0

@@ -2,7 +2,7 @@
 
 import pytest
 
-from recast.models.job import Job, JobStatus
+from recast.models.job import JobStatus
 from recast.models.episode import Episode, Chapter
 from recast.queue import JobQueue
 

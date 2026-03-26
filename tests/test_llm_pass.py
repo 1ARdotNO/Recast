@@ -1,7 +1,6 @@
 """Tests for Stage 4 — LLM Context Pass."""
 
 import json
-from pathlib import Path
 from unittest.mock import patch, MagicMock
 
 import pytest

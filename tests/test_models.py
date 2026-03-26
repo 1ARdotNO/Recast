@@ -1,7 +1,5 @@
 """Tests for data models."""
 
-import json
-from pathlib import Path
 
 import pytest
 

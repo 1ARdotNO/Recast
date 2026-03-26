@@ -1,8 +1,6 @@
 """Tests for Stage 3 — Transcribe."""
 
-from pathlib import Path
 from unittest.mock import MagicMock, patch
-from types import SimpleNamespace
 
 import pytest
 

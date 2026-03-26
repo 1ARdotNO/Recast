@@ -1,6 +1,5 @@
 """Tests for RSS feed generation and Apple Podcasts compliance."""
 
-from pathlib import Path
 
 import pytest
 

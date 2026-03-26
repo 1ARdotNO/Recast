@@ -1,9 +1,6 @@
 """Tests for CLI commands."""
 
-from pathlib import Path
-from unittest.mock import patch, MagicMock
 
-import pytest
 from typer.testing import CliRunner
 
 from recast.cli import app, _check_ffmpeg

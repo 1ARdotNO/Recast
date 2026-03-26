@@ -59,7 +59,6 @@ def _concat_with_silence(
 
     # Build ffmpeg filter for inserting silence
     inputs = []
-    filter_parts = []
     silence_s = silence_ms / 1000.0
 
     for i, seg_file in enumerate(segment_files):
@@ -194,7 +193,7 @@ def render(
                 "ffmpeg", "-y",
                 "-f", "lavfi", "-i", "anullsrc=r=16000:cl=mono",
                 "-t", "1",
-                f"-b:a", audio_bitrate,
+                "-b:a", audio_bitrate,
                 str(output_path),
             ],
             capture_output=True, text=True, check=True,

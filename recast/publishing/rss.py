@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -26,7 +25,6 @@ def _validate_feed(config: ShowConfig) -> list[str]:
         cover_path = config.resolve_path(config.cover_image)
         if cover_path.exists():
             try:
-                from mutagen.mp3 import MP3
                 # Just check file size as a rough proxy for image dimensions
                 size = cover_path.stat().st_size
                 if size < 50000:  # Very rough — 50KB min for a 1400x1400 image

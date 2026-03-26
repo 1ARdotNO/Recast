@@ -62,7 +62,7 @@ def _write_id3_chapters(mp3_path: Path, chapters: list[Chapter], duration_s: flo
     """Write chapter metadata to MP3 ID3 tags using mutagen."""
     try:
         from mutagen.mp3 import MP3
-        from mutagen.id3 import CTOC, CHAP, TIT2, ID3
+        from mutagen.id3 import CTOC, CHAP, TIT2
 
         audio = MP3(str(mp3_path))
         if audio.tags is None:
