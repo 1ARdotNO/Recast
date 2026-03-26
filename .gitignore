@@ -1,6 +1,12 @@
 .claude/settings.local.json
 recast-spec.md
 
+# macOS
+.DS_Store
+
+# PyInstaller
+*.spec
+
 # Python
 __pycache__/
 *.py[cod]
