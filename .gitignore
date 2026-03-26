@@ -1,0 +1,20 @@
+.claude/settings.local.json
+recast-spec.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+.pytest_cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Recast runtime
+*.db
+recast.log

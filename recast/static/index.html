@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recast</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>Recast</h1>
+    <nav>
+      <a href="#" data-view="dashboard" class="active">Dashboard</a>
+      <a href="#" data-view="settings">Settings</a>
+      <a href="#" data-view="log">Live Log</a>
+    </nav>
+  </header>
+  <main id="app">
+    <!-- Dashboard View -->
+    <div id="view-dashboard" class="view">
+      <div class="card">
+        <h2>Shows</h2>
+        <div id="shows-list"></div>
+      </div>
+    </div>
+
+    <!-- Jobs View -->
+    <div id="view-jobs" class="view" style="display:none">
+      <div class="card">
+        <h2 id="jobs-title">Jobs</h2>
+        <table>
+          <thead>
+            <tr><th>File</th><th>Status</th><th>Stage</th><th>Date</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="jobs-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Episode Editor View -->
+    <div id="view-editor" class="view" style="display:none">
+      <div class="card">
+        <h2 id="editor-title">Episode Editor</h2>
+        <div id="waveform-container">
+          <canvas id="waveform"></canvas>
+        </div>
+        <div class="actions" id="audio-controls">
+          <button onclick="playOriginal()">Play Original</button>
+          <button onclick="playPreview()">Play Preview</button>
+          <button onclick="stopAudio()">Stop</button>
+        </div>
+      </div>
+      <div class="panel-grid">
+        <div class="card">
+          <h2>Cut List</h2>
+          <div id="cutlist-panel"></div>
+          <div class="actions">
+            <button onclick="restoreAllLLM()">Restore All LLM Cuts</button>
+            <button onclick="restoreAllPyannote()">Restore All Pyannote Cuts</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Transcript</h2>
+          <div id="transcript-panel"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Metadata</h2>
+        <div id="metadata-panel">
+          <div class="form-group">
+            <label>Title</label>
+            <input id="meta-title" type="text">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="meta-description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Chapters</label>
+            <div id="chapters-list"></div>
+          </div>
+        </div>
+        <div class="actions">
+          <button onclick="saveEdits()">Save Edits</button>
+          <button onclick="renderPreview()">Render & Preview</button>
+          <button onclick="approvePublish()" class="secondary">Approve & Publish</button>
+          <button onclick="discardEdits()" class="secondary">Discard</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings View -->
+    <div id="view-settings" class="view" style="display:none">
+      <div class="card">
+        <h2 id="settings-title">Show Settings</h2>
+        <form id="settings-form"></form>
+        <div class="actions">
+          <button onclick="saveSettings()">Save Settings</button>
+          <button onclick="testOllama()" class="secondary">Test Ollama</button>
+          <button onclick="testFfmpeg()" class="secondary">Test ffmpeg</button>
+        </div>
+        <div id="settings-status"></div>
+      </div>
+    </div>
+
+    <!-- Live Log View -->
+    <div id="view-log" class="view" style="display:none">
+      <div class="card">
+        <h2>Live Processing Log</h2>
+        <div class="progress-bar"><div class="fill" id="progress-fill" style="width:0%"></div></div>
+        <div id="progress-text"></div>
+        <div class="log-container" id="log-container"></div>
+      </div>
+    </div>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

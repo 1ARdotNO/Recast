@@ -1,0 +1,165 @@
+:root {
+  --bg: #1a1a2e;
+  --surface: #16213e;
+  --surface2: #0f3460;
+  --accent: #e94560;
+  --text: #eee;
+  --text-dim: #999;
+  --green: #4caf50;
+  --red: #f44336;
+  --orange: #ff9800;
+  --grey: #666;
+  --radius: 8px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: var(--surface);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 2px solid var(--accent);
+}
+
+header h1 { font-size: 1.4rem; font-weight: 700; }
+header nav { display: flex; gap: 12px; }
+header nav a { color: var(--text-dim); padding: 4px 8px; border-radius: 4px; }
+header nav a:hover, header nav a.active { color: var(--text); background: var(--surface2); text-decoration: none; }
+
+main { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.card h2 { font-size: 1.2rem; margin-bottom: 12px; }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #333; }
+th { color: var(--text-dim); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; }
+tr:hover { background: var(--surface2); cursor: pointer; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.badge.queued { background: var(--grey); }
+.badge.running { background: var(--surface2); color: #64b5f6; }
+.badge.review { background: var(--orange); color: #000; }
+.badge.done { background: var(--green); color: #000; }
+.badge.failed { background: var(--red); }
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+button:hover { opacity: 0.9; }
+button.secondary { background: var(--surface2); }
+
+input, select, textarea {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid #444;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; margin-bottom: 4px; color: var(--text-dim); font-size: 0.85rem; }
+
+.actions { display: flex; gap: 8px; margin-top: 16px; }
+
+/* Waveform */
+#waveform-container {
+  position: relative;
+  background: #111;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+#waveform { width: 100%; height: 150px; }
+
+.region {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  opacity: 0.3;
+}
+.region.keep { background: var(--green); }
+.region.music { background: var(--red); }
+.region.llm { background: var(--orange); }
+.region.short { background: var(--grey); }
+
+/* Panels */
+.panel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.transcript-line {
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.transcript-line:hover { background: var(--surface2); }
+.transcript-line .timestamp { color: var(--text-dim); font-size: 0.8rem; }
+.transcript-line.removed { color: var(--red); text-decoration: line-through; opacity: 0.7; }
+
+/* Progress */
+.progress-bar {
+  background: #333;
+  border-radius: 4px;
+  height: 8px;
+  margin: 8px 0;
+}
+.progress-bar .fill {
+  background: var(--accent);
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+/* Log */
+.log-container {
+  background: #111;
+  border-radius: var(--radius);
+  padding: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+.log-entry { padding: 2px 0; }
+.log-entry.error { color: var(--red); }
+.log-entry.warn { color: var(--orange); }
+
+@media (max-width: 768px) {
+  .panel-grid { grid-template-columns: 1fr; }
+}

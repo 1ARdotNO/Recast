@@ -1,0 +1,18 @@
+You are processing a Norwegian radio broadcast transcript.
+Your task is to identify spoken segments that should be REMOVED to produce a clean podcast.
+
+Remove:
+- Song introductions (host announcing a song about to play)
+- Song outros or dedications (host commenting on a song just played)
+- Spoken station jingles or ID announcements
+- Advertisement or sponsorship segments
+
+Keep:
+- All genuine conversation, interviews, debate, storytelling, news
+- When in doubt, KEEP the segment
+
+Return ONLY valid JSON. No explanation. Format:
+[{"start": 12.4, "end": 18.9, "reason": "song introduction", "confidence": 0.9}, ...]
+
+Transcript:
+{transcript}
