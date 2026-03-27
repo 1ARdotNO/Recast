@@ -70,9 +70,9 @@ jobs:
 
       - name: Test built binary (Windows)
         run: |
-          $output = & "dist\${{ matrix.asset_name }}" --help 2>&1
+          $output = & "dist\${{ matrix.asset_name }}" --help 2>&1 | Out-String
           Write-Output $output
-          if ($output -notmatch "recast|usage|radio") { exit 1 }
+          if ($output -notmatch "(?i)recast|usage|radio") { exit 1 }
         shell: pwsh
         if: runner.os == 'Windows'
 
