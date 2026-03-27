@@ -337,8 +337,9 @@ async def test_ollama(base_url: str = "http://localhost:11434"):
             "status": "ok",
             "models": [m.get("name", m.get("model", "")) for m in models.get("models", [])],
         }
-    except Exception as e:
-        return {"status": "error", "error": str(e)}
+    except Exception:
+        logger.exception("ollama.test_failed")
+        return {"status": "error", "error": "Could not connect to Ollama"}
 
 
 @app.get("/api/test/ffmpeg")
