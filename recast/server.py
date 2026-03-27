@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import shutil
+import sys
 from pathlib import Path
 
 import structlog
@@ -377,8 +378,6 @@ async def broadcast_progress(stage: str, stage_idx: int, total: int, job_id: str
 
 
 # --- Static files ---
-
-import sys
 
 def _get_static_dir() -> Path:
     """Resolve static dir for both normal and PyInstaller-bundled runs."""

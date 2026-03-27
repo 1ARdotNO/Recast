@@ -348,6 +348,71 @@ def ui(
     server.run()
 
 
+@app.command()
+def update(
+    check_only: bool = typer.Option(False, "--check", help="Only check, don't install"),
+    yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation prompt"),
+):
+    """Check for updates and optionally install them."""
+    from recast import __version__
+    from recast.updater import check_for_update, perform_update, restart_app
+
+    typer.echo(f"Current version: v{__version__}")
+    typer.echo("Checking for updates...")
+
+    update_info = check_for_update(__version__)
+
+    if not update_info:
+        typer.echo("You are on the latest version.")
+        return
+
+    typer.echo(f"New version available: {update_info['latest_version']}")
+    typer.echo(f"Release: {update_info['release_url']}")
+
+    if check_only:
+        return
+
+    if not yes:
+        proceed = typer.confirm("Download and install update?")
+        if not proceed:
+            typer.echo("Update cancelled.")
+            return
+
+    typer.echo("Downloading update...")
+    success = perform_update(update_info)
+
+    if success:
+        typer.echo(f"Updated to {update_info['latest_version']}!")
+        if typer.confirm("Restart now?", default=True):
+            restart_app()
+    else:
+        typer.echo("Update failed. See logs for details.", err=True)
+        raise typer.Exit(1)
+
+
+@app.command()
+def version():
+    """Show current version."""
+    from recast import __version__
+    typer.echo(f"recast v{__version__}")
+
+
+def _check_update_notification() -> None:
+    """Non-blocking update check on startup (silent)."""
+    try:
+        from recast import __version__
+        from recast.updater import check_for_update
+        update_info = check_for_update(__version__)
+        if update_info:
+            typer.echo(
+                f"\nUpdate available: {update_info['latest_version']} "
+                f"(current: v{__version__}). Run 'recast update' to install.\n",
+                err=True,
+            )
+    except Exception:
+        pass
+
+
 def _publish_episode(show_config, queue, job_id: str) -> None:
     """Publish an episode (generate/update RSS feed)."""
     from recast.publishing.rss import generate_feed

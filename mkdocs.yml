@@ -1,0 +1,51 @@
+site_name: Recast Documentation
+site_url: https://1ardotno.github.io/Recast/
+site_description: Radio broadcast to podcast converter with local AI
+repo_url: https://github.com/1ARdotNO/Recast
+repo_name: 1ARdotNO/Recast
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: red
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: red
+      accent: red
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - toc.integrate
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Quick Start: quickstart.md
+  - Web UI Guide: gui.md
+  - CLI Reference: cli.md
+  - Configuration Reference: configuration.md
+  - Multi-Show Setup: multi-show.md
+  - Updating: updating.md
+  - Pipeline: pipeline.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
