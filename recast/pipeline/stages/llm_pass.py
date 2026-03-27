@@ -9,7 +9,14 @@ import structlog
 
 logger = structlog.get_logger()
 
-DEFAULT_PROMPT_PATH = Path(__file__).parent.parent / "prompts" / "llm_pass.txt"
+def _get_default_prompt_path() -> Path:
+    """Resolve prompt path for both normal and PyInstaller-bundled runs."""
+    import sys
+    if getattr(sys, "_MEIPASS", None):
+        return Path(sys._MEIPASS) / "recast" / "pipeline" / "prompts" / "llm_pass.txt"
+    return Path(__file__).parent.parent / "prompts" / "llm_pass.txt"
+
+DEFAULT_PROMPT_PATH = _get_default_prompt_path()
 
 
 def _load_prompt_template(custom_path: str | None = None) -> str:

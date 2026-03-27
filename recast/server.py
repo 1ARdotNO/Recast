@@ -377,7 +377,16 @@ async def broadcast_progress(stage: str, stage_idx: int, total: int, job_id: str
 
 # --- Static files ---
 
-static_dir = Path(__file__).parent / "static"
+import sys
+
+def _get_static_dir() -> Path:
+    """Resolve static dir for both normal and PyInstaller-bundled runs."""
+    # PyInstaller bundles files into sys._MEIPASS
+    if getattr(sys, "_MEIPASS", None):
+        return Path(sys._MEIPASS) / "recast" / "static"
+    return Path(__file__).parent / "static"
+
+static_dir = _get_static_dir()
 if static_dir.exists():
     app.mount("/", StaticFiles(directory=str(static_dir), html=True), name="static")
 

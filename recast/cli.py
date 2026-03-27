@@ -323,8 +323,6 @@ def ui(
     """Start the local web UI server."""
     setup_logging(log_level)
 
-    import uvicorn
-
     typer.echo(f"Starting Recast UI at http://{host}:{port}")
 
     if not no_open:
@@ -332,12 +330,22 @@ def ui(
         import threading
         threading.Timer(1.0, webbrowser.open, args=[f"http://{host}:{port}"]).start()
 
-    uvicorn.run(
-        "recast.server:app",
+    try:
+        from recast.server import app as server_app
+    except Exception as e:
+        typer.echo(f"Failed to load server: {e}", err=True)
+        raise typer.Exit(1)
+
+    import uvicorn
+
+    config = uvicorn.Config(
+        server_app,
         host=host,
         port=port,
         log_level=log_level,
     )
+    server = uvicorn.Server(config)
+    server.run()
 
 
 def _publish_episode(show_config, queue, job_id: str) -> None:
