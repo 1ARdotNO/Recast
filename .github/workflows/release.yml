@@ -55,18 +55,23 @@ jobs:
 
       - name: Build with PyInstaller
         run: |
-          pyinstaller --onefile --name ${{ matrix.asset_name }} --add-data "recast/static:recast/static" --add-data "recast/pipeline/prompts:recast/pipeline/prompts" recast/cli.py
+          pyinstaller --onefile --name ${{ matrix.asset_name }} --add-data "recast/static:recast/static" --add-data "recast/pipeline/prompts:recast/pipeline/prompts" recast/__main__.py
         shell: bash
 
       - name: Test built binary
         run: |
-          ./dist/${{ matrix.asset_name }} --help
+          OUTPUT=$(./dist/${{ matrix.asset_name }} --help 2>&1)
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -i "recast\|usage\|radio"
         shell: bash
         if: runner.os != 'Windows'
 
       - name: Test built binary (Windows)
         run: |
-          dist\${{ matrix.asset_name }} --help
+          $output = & "dist\${{ matrix.asset_name }}" --help 2>&1
+          Write-Output $output
+          if ($output -notmatch "recast|usage|radio") { exit 1 }
+        shell: pwsh
         if: runner.os == 'Windows'
 
       - name: Upload artifact
